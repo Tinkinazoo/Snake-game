@@ -35,7 +35,8 @@ const Game: React.FC<GameProps> = ({ onGameOver }) => {
     // Set canvas size
     canvas.width = GRID_SIZE * CELL_SIZE;
     canvas.height = GRID_SIZE * CELL_SIZE;
-
+    canvas.style.width = `${GRID_SIZE*CELL_SIZE}px`;
+    canvas.style.height =`${GRID_SIZE*CELL_SIZE}px`;
     // Create shaders and program
     const vertexShader = shaderUtils.createShader(
       gl,
