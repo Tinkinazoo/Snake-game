@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { GameScore } from '../../models/gameScore'; // Модель для будущей БД
+//import { GameScore } from '../../models/gameScore'; // Модель для будущей БД
 
 // Временное хранилище для демонстрации
 const scores: Array<{ player: string; score: number; date: Date }> = [];

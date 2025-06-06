@@ -1,7 +1,6 @@
 // validationMiddleware.ts
 import { Request, Response, NextFunction } from 'express';
 import { validationResult, body } from 'express-validator';
-import { GameCommand, PlayerAction } from '../types/gameTypes';
 
 /**
  * Валидация данных пользователя при регистрации/авторизации
@@ -19,64 +18,6 @@ export const validateUserInput = [
     .withMessage('Пароль должен быть не менее 6 символов')
     .matches(/\d/)
     .withMessage('Пароль должен содержать хотя бы одну цифру'),
-
-  (req: Request, res: Response, next: NextFunction) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-    next();
-  }
-];
-
-/**
- * Валидация игровых команд
- */
-export const validateGameCommand = [
-  body('command')
-    .isIn(Object.values(GameCommand))
-    .withMessage('Недопустимая игровая команда'),
-
-  body('playerId')
-    .isString()
-    .notEmpty()
-    .withMessage('Неверный идентификатор игрока'),
-
-  (req: Request, res: Response, next: NextFunction) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-    next();
-  }
-];
-
-/**
- * Валидация действий игрока в мультиплеере
- */
-export const validatePlayerAction = [
-  body('action')
-    .isIn(Object.values(PlayerAction))
-    .withMessage('Недопустимое действие игрока'),
-
-  body('direction')
-    .optional()
-    .isObject()
-    .withMessage('Направление должно быть объектом')
-    .custom((value) => {
-      if (value.x === undefined || value.y === undefined) {
-        throw new Error('Направление должно содержать x и y координаты');
-      }
-      if (![-1, 0, 1].includes(value.x) || ![-1, 0, 1].includes(value.y)) {
-        throw new Error('Координаты направления должны быть -1, 0 или 1');
-      }
-      return true;
-    }),
-
-  body('gameId')
-    .isString()
-    .notEmpty()
-    .withMessage('Неверный идентификатор игры'),
 
   (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
@@ -124,7 +65,7 @@ export const handleValidationErrors = (req: Request, res: Response, next: NextFu
       status: 'error',
       message: 'Ошибка валидации',
       errors: errors.array().map(err => ({
-        param: err.param,
+       // param: err.param,
         message: err.msg
       }))
     });
@@ -135,7 +76,7 @@ export const handleValidationErrors = (req: Request, res: Response, next: NextFu
 /**
  * Проверка аутентификации пользователя
  */
-export const authenticateUser = (req: Request, res: Response, next: NextFunction) => {
+export const authenticateUser = (req: Request | any, res: Response, next: NextFunction) => {
   if (!req.user) {
     return res.status(401).json({
       status: 'error',
@@ -148,7 +89,7 @@ export const authenticateUser = (req: Request, res: Response, next: NextFunction
 /**
  * Проверка прав доступа к игре
  */
-export const checkGameAccess = (req: Request, res: Response, next: NextFunction) => {
+export const checkGameAccess = (req: Request | any, res: Response, next: NextFunction) => {
   const { gameId } = req.params;
   const userId = req.user.id;
 

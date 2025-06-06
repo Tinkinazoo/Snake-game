@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+  devtool: 'source-map',
   entry: './src/index.tsx',
   output: {
     filename: 'bundle.js',
@@ -20,7 +21,18 @@ module.exports = {
     rules: [
       {
         test: /\.(ts|tsx)$/,
-        use: 'ts-loader',
+        use: [{
+          loader: 'babel-loader',
+        },
+        {
+          loader: 'ts-loader',
+          options: {
+            compilerOptions: {
+              target: 'es5',
+              sourceMap: true,
+            },
+          },
+        },],
         exclude: /node_modules/,
       },
       {
@@ -30,6 +42,7 @@ module.exports = {
       {
         test: /\.(glsl|vs|fs|vert|frag)$/,
         type: 'asset/source',
+        loader: 'ts-shader-loader'
       },
     ],
   },

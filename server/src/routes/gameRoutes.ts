@@ -4,12 +4,12 @@ import {
   getHighScores,
   getPlayerStats,
 } from '../controllers/gameController';
-import { validateSaveScore } from '../middlewares/validationMiddleware';
+//import { validateSaveScore } from '../middlewares/validationMiddleware';
 
 const router = Router();
 
 // Save player score
-router.post('/scores', validateSaveScore, saveScore);
+//router.post('/scores', validateSaveScore, saveScore);
 
 // Get high scores
 router.get('/scores', getHighScores);

@@ -40,12 +40,23 @@ const Game: React.FC<GameProps> = ({ onGameOver }) => {
     const vertexShader = shaderUtils.createShader(
       gl,
       gl.VERTEX_SHADER,
-      vertexShaderSource
+      `attribute vec2 a_position;
+
+      void main() {
+        gl_Position = vec4(a_position, 0, 1);
+      }`
     );
     const fragmentShader = shaderUtils.createShader(
       gl,
       gl.FRAGMENT_SHADER,
-      fragmentShaderSource
+      `precision mediump float;
+
+      uniform vec4 u_color;
+      
+      void main() {
+        gl_FragColor = u_color;
+      }
+      `
     );
 
     if (!vertexShader || !fragmentShader) return;

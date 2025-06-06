@@ -1,6 +1,6 @@
 import app from './app';
 import { PORT } from './utils/config';
-import { connectToDatabase } from './utils/database'; // Если будете добавлять БД
+//import { connectToDatabase } from './utils/database'; // Если будете добавлять БД
 
 const startServer = async () => {
   try {

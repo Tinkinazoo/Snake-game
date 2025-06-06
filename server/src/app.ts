@@ -5,7 +5,7 @@ import morgan from 'morgan';
 import gameRoutes from './routes/gameRoutes';
 import errorMiddleware from './middlewares/errorMiddleware';
 import { NODE_ENV, PORT } from './utils/config';
-
+const path = require('path');
 const app = express();
 
 // Middlewares
